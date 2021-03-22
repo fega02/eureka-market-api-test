@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+   <AWSProjectType>Lambda</AWSProjectType>
+    <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+      <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.3.0" />
+      <PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
+	  <PackageReference Include="AutoMapper" Version="10.1.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.4" />
+
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
+	  <!--<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />-->
+
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	  
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AWSMarket.BL\AWSMarket.BL.csproj" />
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+</Project>

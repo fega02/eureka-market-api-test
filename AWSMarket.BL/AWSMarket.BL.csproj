@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Market\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.4" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
+	</ItemGroup>
+</Project>

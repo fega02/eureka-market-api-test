@@ -1,4 +1,6 @@
-﻿namespace AWSMarketAPI.Models.Dtos
+﻿using System.Text.Json.Serialization;
+
+namespace AWSMarketAPI.Models.Dtos
 {
     internal class DataPricesDto
     {
@@ -11,7 +13,7 @@
 
         public decimal Low { get; set; }
 
-
+        [JsonIgnore]
         public decimal Close { get; set; }
 
 

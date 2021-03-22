@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AWSMarketAPI.Controllers.Base;
 using AWSMarketAPI.Models.Dtos;
+using AWSMarketAPI.Utils;
 using AWSMarketAPI.Utils.HttpClient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace AWSMarketAPI.Controllers
     {
 
         private readonly ClientHttpService _clientHttpService;
-        public StockPricesController(ClientHttpService client, ILogger<AuthController> logger) : base(logger)
+        public StockPricesController(ClientHttpService client, ILogger<StockPricesController> logger) : base(logger)
         {
             _clientHttpService = client;
         }
@@ -32,6 +33,11 @@ namespace AWSMarketAPI.Controllers
 
             try
             {
+                if (string.IsNullOrEmpty(stockSymbol))
+                {
+
+                    return Ok(new ResponseBase() { Code = 202, Message = "The parameter 'stockSymbol' is empty", Success = false });
+                }
                 var responseStock = await _clientHttpService.GetPricesJSONAsync(stockSymbol);
                 var dtoCompetition = JsonConvert.DeserializeObject<TimeSerieDailyDto>(responseStock, new JsonSerializerSettings
                 {
@@ -42,13 +48,19 @@ namespace AWSMarketAPI.Controllers
             }
             catch (JsonSerializationException ex)
             {
-                _logger.LogError("An error has occurred trying to SerializeJson from  AlphaVantage" + ex);
+                _logger.LogError("An error has occurred trying to Serialize Json from  AlphaVantage" + ex);
                 Console.WriteLine(ex.Message);
                 // throw ex;
+                return Ok(new ResponseBase() { Code = 202, Message = "The system could not process the results of alpha vantage. Please contact the system administrator ", Success = false });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error has occurred" + ex);
+                 throw ex;
             }
 
 
-            return Ok();
+          
         }
 
         private Dictionary<string, DataPricesDto> GetInformation(TimeSerieDailyDto data)

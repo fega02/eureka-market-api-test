@@ -1,4 +1,5 @@
 ﻿using AWSMarketAPI.Configs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace AWSMarketAPI.Utils.HttpClient
       
         private readonly System.Net.Http.HttpClient _httpClient;
         private readonly AppSettings _appSettings;
+        private readonly ILogger _logger;
 
-        public ClientHttpService(System.Net.Http.HttpClient client, IOptions<AppSettings> appSettings)
+        public ClientHttpService(System.Net.Http.HttpClient client, IOptions<AppSettings> appSettings, ILogger<ClientHttpService> logger)
         {
             _httpClient = client;
             _appSettings = appSettings.Value;
+            _logger = logger;
         }
 
 
@@ -33,10 +36,13 @@ namespace AWSMarketAPI.Utils.HttpClient
                 {
                     response.EnsureSuccessStatusCode();
                     var result = await response.Content.ReadAsStringAsync();
+
+                    _logger.LogInformation("JSON Response from Alpha vantage: " + result );
                     return result;
                 }
                 else
                 {
+                    _logger.LogError("Error Response -  HTTPStatusCode:" +(int)response.StatusCode);
                     throw new Exception("Error trying to retrive data from API AlphaVantage");
                 }
                

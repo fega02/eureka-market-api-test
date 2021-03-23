@@ -35,11 +35,12 @@ namespace AWSMarketAPI.Controllers
             {
                 if (string.IsNullOrEmpty(stockSymbol))
                 {
-
                     return Ok(new ResponseBase() { Code = 202, Message = "The parameter 'stockSymbol' is empty", Success = false });
                 }
                 var responseStock = await _clientHttpService.GetPricesJSONAsync(stockSymbol);
-                var dtoCompetition = JsonConvert.DeserializeObject<TimeSerieDailyDto>(responseStock, new JsonSerializerSettings
+              
+
+              var dtoCompetition = JsonConvert.DeserializeObject<TimeSerieDailyDto>(responseStock, new JsonSerializerSettings
                 {
                     MissingMemberHandling = MissingMemberHandling.Error
                 });
